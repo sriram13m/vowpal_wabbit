@@ -98,6 +98,7 @@ example::example(example&& other) noexcept
     , test_only(other.test_only)
     , end_pass(other.end_pass)
     , sorted(other.sorted)
+    , ignore(other.ignore)
     , in_use(other.in_use)
 {
   other.weight = 1.f;
@@ -116,6 +117,7 @@ example::example(example&& other) noexcept
   other.test_only = false;
   other.end_pass = false;
   other.sorted = false;
+  other.ignore = false;
   other.in_use = false;
 }
 VW_WARNING_STATE_POP
@@ -138,6 +140,7 @@ example& example::operator=(example&& other) noexcept
   test_only = other.test_only;
   end_pass = other.end_pass;
   sorted = other.sorted;
+  ignore = other.ignore;
   VW_WARNING_STATE_PUSH
   VW_WARNING_DISABLE_DEPRECATED_USAGE
   in_use = other.in_use;
@@ -162,6 +165,7 @@ example& example::operator=(example&& other) noexcept
   other.test_only = false;
   other.end_pass = false;
   other.sorted = false;
+  other.ignore = false;
   VW_WARNING_STATE_PUSH
   VW_WARNING_DISABLE_DEPRECATED_USAGE
   other.in_use = false;
@@ -245,6 +249,7 @@ void copy_example_metadata(bool /* audit */, example* dst, example* src)
   dst->test_only = src->test_only;
   dst->end_pass = src->end_pass;
   dst->sorted = src->sorted;
+  dst->ignore = src->ignore;
 }
 
 void copy_example_data(bool audit, example* dst, example* src)

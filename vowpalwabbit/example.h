@@ -109,6 +109,7 @@ struct example : public example_predict  // core example datatype.
   bool test_only = false;
   bool end_pass = false;  // special example indicating end of pass.
   bool sorted = false;    // Are the features sorted or not?
+  bool ignore = false;    //Is the example to be ignored or not?
 
   VW_DEPRECATED(
       "in_use has been removed, examples taken from the pool are assumed to be in use if there is a reference to them. "

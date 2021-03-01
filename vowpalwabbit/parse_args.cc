@@ -1076,7 +1076,9 @@ void parse_example_tweaks(options_i& options, vw& all)
       .add(make_option("named_labels", named_labels)
                .keep()
                .help("use names for labels (multiclass, etc.) rather than integers, argument specified all possible "
-                     "labels, comma-sep, eg \"--named_labels Noun,Verb,Adj,Punc\""));
+                     "labels, comma-sep, eg \"--named_labels Noun,Verb,Adj,Punc\""))
+      .add(make_option("ignore_tag",all.ignore_tag_value).help("Specify tag to ignore examples associated with the specified tag"));
+ 
   options.add_and_parse(example_options);
 
   if (test_only || all.eta == 0.)
@@ -1101,6 +1103,11 @@ void parse_example_tweaks(options_i& options, vw& all)
     all.sd->ldict = &calloc_or_throw<VW::named_labels>();
     new (all.sd->ldict) VW::named_labels(named_labels);
     if (!all.logger.quiet) *(all.trace_message) << "parsed " << all.sd->ldict->getK() << " named labels" << endl;
+  }
+
+  if (options.was_supplied("ignore_tag")) 
+  {
+    *(all.trace_message) << "Ignoring examples with the tag:" << all.ignore_tag_value << endl;
   }
 
   all.loss = getLossFunction(all, loss_function, loss_parameter);

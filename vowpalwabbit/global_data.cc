@@ -301,6 +301,8 @@ vw::vw() : options(nullptr, nullptr)
   l1_lambda = 0.0;
   l2_lambda = 0.0;
 
+  examples_ignored = 0;
+
   eta_decay_rate = 1.0;
   initial_weight = 0.0;
   initial_constant = 0.0;

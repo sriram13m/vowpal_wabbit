@@ -1758,6 +1758,11 @@ int read_features_json(vw* all, v_array<example*>& examples)
     line[num_chars] = '\0';
 
     reread = !parse_line_json<audit>(all, line, num_chars, examples);
+    if( examples.back()->ignore )
+    {
+      examples.pop_back();
+      all->examples_ignored++;
+    }
   } while (reread);
 
   append_empty_newline_example_for_driver(all, examples);

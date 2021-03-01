@@ -35,7 +35,14 @@ int read_features_string(vw* all, v_array<example*>& examples)
   if (num_chars_initial < 1) return (int)num_chars_initial;
 
   VW::string_view example(line, num_chars);
+
   substring_to_example(all, examples[0], example);
+
+  if( examples.back()->ignore )
+  {
+    examples.pop_back();
+    all->examples_ignored++;
+  }
 
   return (int)num_chars_initial;
 }
@@ -479,6 +486,12 @@ void substring_to_example(vw* all, example* ae, VW::string_view example)
       VW::string_view tag = all->example_parser->words.back();
       all->example_parser->words.pop_back();
       if (tag.front() == '\'') tag.remove_prefix(1);
+      if(all->ignore_tag_value.length() > 0) 
+      {
+        if(tag == all->ignore_tag_value) {
+          ae->ignore = true;
+        }
+      }
       push_many(ae->tag, tag.begin(), tag.size());
     }
   }
